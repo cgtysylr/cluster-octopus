@@ -7,7 +7,7 @@ ARG NODE_VERSION=22
 
 WORKDIR /var/www/html
 
-COPY . /var/www/html
+COPY / /var/www/html
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
