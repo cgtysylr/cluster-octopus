@@ -57,11 +57,11 @@
         <h1>Cluster Octopus</h1>
     </div>
 
-    <!-- Summary Section -->
+    <!-- Summary Section
     <div id="summary" class="alert alert-success text-center fw-bold" role="alert">
         Total Issues: 0
     </div>
-
+    -->
     <!-- Grouped Accessibility List -->
     <div id="grouped-accessibility-list" class="accordion" id="accessibilityAccordion">
         <!-- Dynamic content will be inserted here -->
@@ -107,7 +107,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="${groupId}">
                             <button class="accordion-button ${isOpen ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="${isOpen}" aria-controls="${collapseId}">
-                                ${group} (${items.length})
+                                ${group}
                             </button>
                         </h2>
                         <div id="${collapseId}" class="accordion-collapse collapse ${isOpen ? 'show' : ''}" aria-labelledby="${groupId}" data-bs-parent="#accessibilityAccordion">
