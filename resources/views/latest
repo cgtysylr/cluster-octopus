@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubelet Metrics Accessibility</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 20px;
+        }
+        .list-group-item {
+            font-size: 1.1rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .blinking {
+            animation: blinkingText 1.5s infinite;
+        }
+        @keyframes blinkingText {
+            0% { color: red; }
+            50% { color: transparent; }
+            100% { color: red; }
+        }
+        .group-header {
+            cursor: pointer;
+            font-weight: bold;
+            background-color: #e9ecef;
+            padding: 10px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+        }
+        .group-items {
+            display: none;
+            margin-left: 20px;
+        }
+        .arrow {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            color: #007bff;
+        }
+        .summary {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">Kubelet Metrics Accessibility</h1>
+    <div id="summary" class="summary">Total Issues: 0</div>
+    <div id="grouped-accessibility-list">
+        <!-- Dynamic content will be inserted here -->
+    </div>
+</div>
+
+<script>
+    // Tabların durumunu takip etmek için bir nesne
+    let groupState = {};
+
+    function fetchAndUpdateData() {
+        $.ajax({
+            url: '/get-errors', // Laravel endpoint
+            method: 'GET',
+            success: function (data) {
+                updateUI(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching data:', error);
+            }
+        });
+    }
+
+    function updateUI(data) {
+        const groupedData = data.reduce((acc, item) => {
+            acc[item.description] = acc[item.description] || [];
+            acc[item.description].push(item);
+            return acc;
+        }, {});
+
+        const container = $('#grouped-accessibility-list');
+        container.empty(); // Eski içeriği temizle
+
+        const totalIssues = data.length;
+        $('#summary').text(`Total Issues: ${totalIssues}`);
+
+        for (const [group, items] of Object.entries(groupedData)) {
+            const isOpen = groupState[group] || false; // Grup durumu kontrol et
+            const groupHeader = $(`<div class="group-header">${group} (${items.length})</div>`);
+            const groupItems = $('<ul class="group-items list-group"></ul>');
+
+            items.forEach(item => {
+                const listItem = `
+                <li class="list-group-item">
+                    <strong>Source:</strong> ${item.source} <span class="arrow">&#8594;</span> <strong>Destination:</strong> ${item.destination} <br>
+                    <strong>Port:</strong> ${item.port} <br>
+                    <strong>Status:</strong> <span class="blinking">${item.status}</span>
+                </li>
+            `;
+                groupItems.append(listItem);
+            });
+
+            container.append(groupHeader);
+            container.append(groupItems);
+
+            // Grup durumu korunacak şekilde görünürlüğü ayarla
+            if (isOpen) {
+                groupItems.show();
+            } else {
+                groupItems.hide();
+            }
+
+            // Grup başlığına tıklanınca durum güncellenir
+            groupHeader.click(function () {
+                const isVisible = groupItems.is(':visible');
+                groupItems.slideToggle();
+                groupState[group] = !isVisible; // Grup durumu kaydedilir
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        fetchAndUpdateData(); // İlk veri çekme
+        setInterval(fetchAndUpdateData, 5000); // 5 saniyede bir yenile
+    });
+
+</script>
+
+</body>
+</html>
