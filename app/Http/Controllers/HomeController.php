@@ -28,11 +28,13 @@ class HomeController extends Controller
     {
         $directory = storage_path('app/private/data');
 
+        // Tüm dosyaları al
         $files = File::files($directory);
         $mergedData = [];
 
         foreach ($files as $file) {
-            if ($file->getExtension() === 'json') {
+            // Dosya adı "error_results" ile başlıyor mu ve uzantısı JSON mu?
+            if (str_starts_with($file->getFilename(), 'error_results') && $file->getExtension() === 'json') {
                 $content = File::get($file->getPathname());
                 $data = json_decode($content, true);
 
@@ -44,4 +46,5 @@ class HomeController extends Controller
 
         return response()->json($mergedData);
     }
+
 }
