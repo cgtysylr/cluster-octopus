@@ -117,7 +117,7 @@
                     <div class="accordion-item">
                         <h2 class="accordion-header" id="${groupId}">
                             <button class="accordion-button ${isOpen ? '' : 'collapsed'}" type="button" data-bs-toggle="collapse" data-bs-target="#${collapseId}" aria-expanded="${isOpen}" aria-controls="${collapseId}">
-                                ${group}
+                                ${group} (${items.length})
                             </button>
                         </h2>
                         <div id="${collapseId}" class="accordion-collapse collapse ${isOpen ? 'show' : ''}" aria-labelledby="${groupId}" data-bs-parent="#accessibilityAccordion">
