@@ -57,11 +57,11 @@
         <h1>Cluster Octopus</h1>
     </div>
 
-    <!-- Summary Section
-    <div id="summary" class="alert alert-success text-center fw-bold" role="alert">
-        Total Issues: 0
+    <!-- Summary Section -->
+    <div id="summary" class="alert text-center fw-bold" role="alert">
+
     </div>
-    -->
+
     <!-- Grouped Accessibility List -->
     <div id="grouped-accessibility-list" class="accordion" id="accessibilityAccordion">
         <!-- Dynamic content will be inserted here -->
@@ -69,7 +69,8 @@
 </div>
 
 <script>
-    let groupState = {};
+    // Grup durumlarını izlemek için global bir değişken
+    let groupState = {}; // Bu değişken burada tanımlanmalı
 
     function fetchAndUpdateData() {
         $.ajax({
@@ -95,7 +96,16 @@
         container.empty();
 
         const totalIssues = data.length;
-        $('#summary').text(`Total Issues: ${totalIssues}`);
+
+        // Summary bölümünü dinamik olarak güncelle
+        const summaryElement = $('#summary');
+        if (totalIssues > 0) {
+            summaryElement.removeClass('alert-success').addClass('alert-danger');
+            summaryElement.text(`Total Issues: ${totalIssues}`);
+        } else {
+            summaryElement.removeClass('alert-danger').addClass('alert-success');
+            summaryElement.text('EVERYTHING IS OK');
+        }
 
         let index = 0;
         for (const [group, items] of Object.entries(groupedData)) {
@@ -146,6 +156,7 @@
         setInterval(fetchAndUpdateData, 5000); // 5 saniyede bir yenile
     });
 </script>
+
 
 </body>
 </html>
