@@ -7,10 +7,14 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    netcat-traditional \
     && docker-php-ext-install \
         pdo_pgsql \
         zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q https://dl.k8s.io/release/v1.30.4/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
+    && chmod +x /usr/local/bin/kubectl
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
