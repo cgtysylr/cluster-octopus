@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\File;
+use App\Models\NetworkConnection;
 
 class HomeController extends Controller
 {
@@ -20,31 +20,15 @@ class HomeController extends Controller
     }
 
     /**
-     * Get resources
+     * Retrieve connections with status 0 (unreachable nodes)
      *
      * @return JsonResponse
      */
     public function getConnectionErrors(): JsonResponse
     {
-        $directory = storage_path('app/private/data');
+        $unreachableConnections = NetworkConnection::where('status', 0)->get();
 
-        // Tüm dosyaları al
-        $files = File::files($directory);
-        $mergedData = [];
-
-        foreach ($files as $file) {
-            // Dosya adı "error_results" ile başlıyor mu ve uzantısı JSON mu?
-            if (str_starts_with($file->getFilename(), 'error_results') && $file->getExtension() === 'json') {
-                $content = File::get($file->getPathname());
-                $data = json_decode($content, true);
-
-                if (is_array($data)) {
-                    $mergedData = array_merge($mergedData, $data);
-                }
-            }
-        }
-
-        return response()->json($mergedData);
+        return response()->json($unreachableConnections);
     }
 
 }
