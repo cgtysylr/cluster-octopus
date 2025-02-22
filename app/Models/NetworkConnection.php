@@ -18,4 +18,9 @@ class NetworkConnection extends Model
         'status',
         'description'
     ];
+
+    public function getStatusAttribute($value): string
+    {
+        return $value ? 'ACCESSIBLE' : 'NOT ACCESSIBLE';
+    }
 }
