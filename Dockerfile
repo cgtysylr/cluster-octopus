@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y \
     git \
     curl \
     netcat-traditional \
+    wget \
     && docker-php-ext-install \
         pdo_pgsql \
         zip \
