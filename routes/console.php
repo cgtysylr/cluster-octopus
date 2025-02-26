@@ -8,4 +8,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-app(Schedule::class)->command('kubernetes:check-connections')->everyFiveMinutes();
+app(Schedule::class)->command('kubernetes:check-connections')->everyMinute();
