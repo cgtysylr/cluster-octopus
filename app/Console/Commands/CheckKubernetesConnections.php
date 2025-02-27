@@ -41,6 +41,7 @@ class CheckKubernetesConnections extends Command
             ["port" => 10250, "protocol" => "tcp", "source" => "ALL_NODES", "destination" => "ALL_NODES", "description" => "kubelet metrics"],
             ["port" => 2379, "protocol" => "tcp", "source" => "MASTERS", "destination" => "MASTERS", "description" => "etcd client port"],
             ["port" => 2380, "protocol" => "tcp", "source" => "MASTERS", "destination" => "MASTERS", "description" => "etcd peer port"],
+            ["port" => 1927, "protocol" => "tcp", "source" => "MASTERS", "destination" => "WORKERS", "description" => "TESTING PORT"],
             ["port" => 8472, "protocol" => "udp", "source" => "ALL_NODES", "destination" => "ALL_NODES", "description" => "Canal CNI with VXLAN"]
         ];
 
