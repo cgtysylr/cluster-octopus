@@ -3,7 +3,6 @@
 set -e
 echo "Starting entrypoint script..."
 
-
 echo "Clearing cache..."
 php artisan config:clear
 
@@ -21,4 +20,6 @@ php artisan migrate --force
 echo "Starting Laravel server..."
 exec "$@"
 
+echo "Running Supervisord ..."
+exec supervisord -c /etc/supervisor/supervisord.conf
 
