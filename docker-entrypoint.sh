@@ -18,7 +18,7 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Running Supervisord ..."
-exec supervisord -c /etc/supervisor/supervisord.conf
+exec supervisord -c /etc/supervisor/supervisord.conf &
 
 echo "Starting Laravel server..."
 exec "$@"
