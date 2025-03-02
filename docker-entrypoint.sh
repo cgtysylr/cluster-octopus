@@ -17,6 +17,3 @@ php artisan schedule:work &
 
 echo "Starting Laravel server..."
 exec "$@"
-
-
-
