@@ -9,7 +9,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     netcat-traditional \
     wget \
-    supervisor \
     && docker-php-ext-install \
         pdo_pgsql \
         zip \
@@ -27,7 +26,6 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-COPY supervisord.conf /etc/supervisor/supervisord.conf
 
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
