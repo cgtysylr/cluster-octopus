@@ -13,7 +13,7 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Running Scheduled Tasks ..."
-php artisan schedule:work &
+php artisan schedule:work > /dev/null 2>&1 &
 
 echo "Starting Laravel server..."
 exec "$@"
