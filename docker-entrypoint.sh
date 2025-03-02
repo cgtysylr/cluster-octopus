@@ -12,8 +12,8 @@ sleep 5
 echo "Running migrations..."
 php artisan migrate --force
 
-echo "Running Supervisord ..."
-exec supervisord -c /etc/supervisor/supervisord.conf &
+echo "Running Scheduled Tasks ..."
+php artisan schedule:work &
 
 echo "Starting Laravel server..."
 exec "$@"
